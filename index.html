@@ -9,134 +9,186 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #ffffff;
+      background: #fff;
       color: #1a1a1a;
       line-height: 1.7;
     }
 
-    /* ── PAGE WRAPPER ── */
-    .page {
-      max-width: 780px;
+    /* ── TOP BAR ── */
+    .topbar {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8em;
+      color: #888;
+      letter-spacing: 0.04em;
+    }
+    .topbar strong { color: #111; }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      max-width: 1060px;
       margin: 0 auto;
-      padding: 64px 32px 100px;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR NAV ── */
+    aside {
+      padding: 48px 24px 48px 40px;
+      border-right: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    aside nav { display: flex; flex-direction: column; gap: 4px; }
+    aside nav a {
+      font-size: 0.83em;
+      color: #777;
+      text-decoration: none;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    aside nav a:hover { background: #f3f4f6; color: #111; }
+    aside .nav-section {
+      font-size: 0.68em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin: 20px 0 6px 8px;
+    }
+    aside .nav-section:first-child { margin-top: 0; }
+
+    /* ── MAIN ── */
+    main {
+      padding: 56px 60px 100px;
+      max-width: 760px;
     }
 
     /* ── HEADER ── */
-    .eyebrow {
-      font-size: 0.75em;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+    .tag {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      font-size: 0.7em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #c0392b;
-      margin-bottom: 16px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
     }
-
     h1 {
-      font-size: 3.2em;
+      font-size: 2.8em;
       font-weight: 800;
       line-height: 1.1;
       color: #111;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-
     .subtitle {
-      font-size: 1.15em;
-      font-style: italic;
-      color: #555;
+      font-size: 1.05em;
+      color: #666;
       margin-bottom: 28px;
     }
-
-    /* ── TEAM BADGES ── */
-    .team-badges {
+    .team-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 40px;
+      gap: 8px;
+      margin-bottom: 48px;
     }
-    .badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border: 1.5px solid #d1d5db;
-      border-radius: 999px;
-      padding: 5px 14px 5px 10px;
-      font-size: 0.9em;
-      color: #111;
-    }
-    .badge strong { font-weight: 700; }
-    .badge span {
-      font-size: 0.78em;
-      color: #888;
-      font-weight: 500;
+    .member {
+      font-size: 0.85em;
+      font-weight: 600;
+      color: #444;
       background: #f3f4f6;
-      border-radius: 999px;
-      padding: 1px 7px;
+      border-radius: 6px;
+      padding: 4px 12px;
     }
 
-    /* ── HERO IMAGE ── */
-    .hero-img {
-      width: 100%;
-      border-radius: 16px;
-      margin-bottom: 56px;
-      display: block;
-      /* placeholder styling until a real photo is added */
-      background: #f3f4f6;
-      min-height: 200px;
-    }
-    .hero-img[src=""] { display: none; }
-
-    /* ── SECTIONS ── */
-    section {
+    /* ── STAT STRIP ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: #e5e7eb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
       margin-bottom: 52px;
     }
-
-    h2 {
-      font-size: 1.6em;
-      font-weight: 700;
+    .stat {
+      background: #fff;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.9em;
+      font-weight: 800;
       color: #111;
-      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75em;
+      color: #888;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
-    h3 {
-      font-size: 1.05em;
+    /* ── SECTIONS ── */
+    section { margin-bottom: 56px; }
+
+    h2 {
+      font-size: 1.3em;
       font-weight: 700;
       color: #111;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    h3 {
+      font-size: 0.95em;
+      font-weight: 700;
+      color: #111;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       margin: 24px 0 8px;
     }
 
-    p { margin-bottom: 14px; color: #333; }
+    p { margin-bottom: 14px; color: #444; font-size: 0.97em; }
     p:last-child { margin-bottom: 0; }
+    ul, ol { padding-left: 20px; margin-bottom: 14px; color: #444; font-size: 0.97em; }
+    li { margin-bottom: 5px; }
 
-    ul, ol {
-      padding-left: 22px;
-      margin-bottom: 14px;
-      color: #333;
-    }
-    li { margin-bottom: 6px; }
-
-    /* ── DIVIDER ── */
-    hr {
-      border: none;
-      border-top: 1px solid #e5e7eb;
-      margin: 52px 0;
-    }
-
-    /* ── FIGURE ── */
-    figure {
-      margin: 28px 0;
-      text-align: center;
-    }
+    /* ── PHOTO ── */
+    figure { margin: 24px 0; }
     figure img {
-      max-width: 100%;
+      width: 100%;
       border-radius: 10px;
       border: 1px solid #e5e7eb;
+      display: block;
     }
     figcaption {
       margin-top: 8px;
-      font-size: 0.82em;
-      color: #888;
+      font-size: 0.78em;
+      color: #999;
       font-style: italic;
     }
+
+    /* ── SIDE-BY-SIDE PHOTOS ── */
+    .photo-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .photo-pair figure { margin: 0; }
 
     /* ── VIDEO ── */
     .video-wrap {
@@ -144,342 +196,390 @@
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border-radius: 12px;
+      border-radius: 10px;
       margin: 24px 0;
       background: #f3f4f6;
     }
     .video-wrap iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: 0;
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: 0;
     }
 
-    /* ── FSM STATES ── */
-    .state-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 16px 0;
-    }
-    .state {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      padding: 12px 16px;
-      background: #f9fafb;
-      border-radius: 8px;
-      font-size: 0.93em;
-    }
-    .state-name {
-      font-family: monospace;
-      font-weight: 700;
-      font-size: 0.88em;
-      color: #c0392b;
-      white-space: nowrap;
-      padding-top: 2px;
-      min-width: 200px;
-    }
-    .state-desc { color: #444; }
-
-    /* ── RESULT CALLOUT ── */
-    .callout {
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    /* ── FSM TIMELINE ── */
+    .fsm {
       margin: 20px 0;
+      position: relative;
+      padding-left: 24px;
+      border-left: 2px solid #e5e7eb;
     }
-    .callout-num {
-      font-size: 2.8em;
-      font-weight: 800;
+    .fsm-step {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .fsm-step::before {
+      content: '';
+      position: absolute;
+      left: -30px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #111;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #111;
+    }
+    .fsm-step:last-child { margin-bottom: 0; }
+    .fsm-name {
+      font-family: monospace;
+      font-size: 0.82em;
+      font-weight: 700;
       color: #111;
-      white-space: nowrap;
+      background: #f3f4f6;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 3px;
     }
-    .callout-text { color: #444; font-size: 0.97em; }
+    .fsm-desc { font-size: 0.92em; color: #555; }
 
     /* ── TABLE ── */
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.93em;
-      margin-top: 16px;
+      font-size: 0.9em;
+      margin-top: 14px;
     }
-    th, td {
+    th, td { border: 1px solid #e5e7eb; padding: 9px 13px; text-align: left; }
+    th { background: #f9fafb; font-weight: 600; color: #333; }
+    tr:nth-child(even) td { background: #fafafa; }
+
+    /* ── CALLOUT ── */
+    .callout {
       border: 1px solid #e5e7eb;
-      padding: 10px 14px;
-      text-align: left;
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin: 20px 0;
     }
-    th { background: #f9fafb; font-weight: 600; }
+    .callout-num { font-size: 2.4em; font-weight: 800; color: #111; white-space: nowrap; }
+    .callout-text { font-size: 0.93em; color: #555; }
 
     /* ── FOOTER ── */
     footer {
-      padding-top: 40px;
       border-top: 1px solid #e5e7eb;
-      color: #aaa;
-      font-size: 0.82em;
+      padding: 24px 0 0;
+      color: #bbb;
+      font-size: 0.8em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 700px) {
+      .wrapper { grid-template-columns: 1fr; }
+      aside { display: none; }
+      main { padding: 32px 24px 80px; }
+      .stats { grid-template-columns: 1fr; }
+      .photo-pair { grid-template-columns: 1fr; }
+      h1 { font-size: 2em; }
     }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- HEADER -->
-  <div class="eyebrow">ME210 &middot; Introduction to Mechatronics &middot; Stanford University &middot; Winter 2026</div>
-  <h1>Canada Curling Team</h1>
-  <div class="subtitle">Autonomous Curling Robot — Final Project Report</div>
-
-  <div class="team-badges">
-    <div class="badge"><strong>Jack</strong> <span>MechE</span></div>
-    <div class="badge"><strong>Seth</strong> <span>MechE</span></div>
-    <div class="badge"><strong>Breno</strong> <span>MechE</span></div>
-    <div class="badge"><strong>Jonah</strong> <span>MechE</span></div>
-  </div>
-
-  <!-- TEAM PHOTO — upload a photo to your repo and replace "team.jpg" -->
-  <!-- <img class="hero-img" src="team.jpg" alt="Canada Curling Team" /> -->
-
-  <!-- OVERVIEW -->
-  <section id="overview">
-    <h2>Project Overview</h2>
-    <p>
-      This project, set out by the 2026 ME210 teaching team, was to build an autonomous curling robot —
-      a DROID that starts in a random orientation, finds its way down the curling sheet, launches pucks
-      toward the house, and does all of this without embarrassing itself in front of family, friends,
-      and the teaching staff.
-    </p>
-    <p>
-      The challenge combined navigation, sensing, actuation, and strategy under tight constraints:
-      a small footprint, full autonomy, a limited budget, and the requirement to "beat the brick."
-      Over a 4-week sprint, our robot evolved from ambitious ideas into a working system with a clear
-      strategy, integrated sensing, and a repeatable puck-shooting mechanism.
-    </p>
-
-    <!-- 🎥 DEMO VIDEO — paste your YouTube video ID below and uncomment
-    <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-    </div>
-    -->
-
-    <h3>Rules & Requirements</h3>
-    <ul>
-      <li>Fully autonomous — no human interaction during a run except legal reloading</li>
-      <li>Start in a randomized orientation with three pucks loaded</li>
-      <li>Two-minute run time; max footprint 13×13 in starting, 20×20 in deployed</li>
-      <li>Front of starting footprint cannot cross the hog line</li>
-      <li>Arduino Uno control, untethered battery power, external e-stop, fuse required</li>
-      <li>Total material cost under $200</li>
-      <li>Minimum: score ≥ 3 points in 2 minutes ("beat the brick")</li>
-    </ul>
-  </section>
-
-  <hr>
-
-  <!-- STRATEGY -->
-  <section id="strategy">
-    <h2>Design Strategy</h2>
-    <p>
-      From day one, our goal was simple: beat the brick. We designed around the curling sheet's
-      center line and divided the robot's behavior into a clear sequence of stages:
-    </p>
-    <ol>
-      <li>Orient toward the house using IR beacon detection</li>
-      <li>Drive forward to fully exit the starting zone</li>
-      <li>Turn 90° and drive laterally to find the center line</li>
-      <li>Align to the center line and follow it toward the hog line</li>
-      <li>Stop at the hog line and dispense all three pucks</li>
-    </ol>
-
-    <!-- CURLING SHEET DIAGRAM — save the diagram as "curling-sheet.png", upload to repo -->
-    <figure>
-      <img src="curling-sheet.png" alt="Diagram of the ME210 Curling Sheet" />
-      <figcaption>Figure 1 — ME210 Curling Sheet layout (Source: ME210 Project Guidelines)</figcaption>
-    </figure>
-
-    <p>
-      Because the robot began in a random orientation inside a tape-bounded starting zone, we needed
-      to fully exit before beginning any tape sensing. IR beacon detection oriented the robot toward
-      the house first, then the robot exited, turned 90°, and swept laterally until the center line
-      was found.
-    </p>
-  </section>
-
-  <hr>
-
-  <!-- MECHANICAL -->
-  <section id="mechanical">
-    <h2>Mechanical Design</h2>
-    <p>
-      The robot combined a laser-cut Duron chassis with 3D-printed PLA components.
-      Duron was chosen for its light weight, stiffness, and availability in the lab.
-    </p>
-
-    <!-- 📷 ROBOT PHOTO — upload and uncomment
-    <figure>
-      <img src="robot.jpg" alt="Assembled robot" />
-      <figcaption>Figure 2 — Final assembled robot</figcaption>
-    </figure>
-    -->
-
-    <h3>Drivetrain</h3>
-    <p>
-      Two DC motors in a differential drive configuration, stabilized by two ball-transfer rollers.
-      A software trim constant of 0.8 on the right motor corrected a physical speed mismatch,
-      enabling straight-line travel without feedback control.
-    </p>
-
-    <h3>IR Tower</h3>
-    <p>
-      A 3D-printed PLA tower elevated two phototransistors above the chassis with a barrier between
-      them to isolate left and right beacon signals. The tower also mounted the battery packs,
-      keeping the center of mass low and centered.
-    </p>
-
-    <h3>Puck Dispenser</h3>
-    <p>
-      A rack-and-pinion mechanism driven by a third DC motor extended a puck arm forward on reaching
-      the hog line, pushing all three pucks into the scoring zone.
-    </p>
-  </section>
-
-  <hr>
-
-  <!-- ELECTRICAL -->
-  <section id="electrical">
-    <h2>Electrical Design</h2>
-    <p>All sensing, motor driving, and power distribution ran through a single breadboard mounted on the chassis.</p>
-
-    <h3>Power</h3>
-    <p>Provided battery packs with an in-line fuse and an externally accessible emergency stop switch wired in series with the main power rail.</p>
-
-    <h3>DC Motor Drivers</h3>
-    <p>Three H-bridge drivers provided independent PWM control of each motor. A software trim constant of 0.8 on the right drive motor corrected a physical speed mismatch for straight-line travel.</p>
-
-    <h3>Tape Sensors</h3>
-    <p>Four reflectance sensors: center mid (pin 2), rear (A5), and two front hog-line sensors (pins 3 and 4). Each outputs HIGH over black tape, LOW otherwise.</p>
-
-    <h3>IR Phototransistors</h3>
-    <p>Two phototransistors on pins A0 and A1 detected the 909 Hz IR beacons. The ADC prescaler was reduced to divide-by-16 to achieve the sampling rate required by the Goertzel algorithm.</p>
-  </section>
-
-  <hr>
-
-  <!-- SOFTWARE -->
-  <section id="software">
-    <h2>Software & Finite State Machine</h2>
-    <p>
-      The robot's behavior was implemented as an 8-state FSM in the Arduino main loop —
-      each run stage mapped to one self-contained, independently testable state.
-    </p>
-
-    <div class="state-list">
-      <div class="state">
-        <div class="state-name">STATE_FIND_BEARING</div>
-        <div class="state-desc">Rotates until both IR sensors simultaneously detect the 909 Hz beacon, indicating the robot faces the house.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_EXIT_START</div>
-        <div class="state-desc">Drives forward for 4000 ms to fully clear the starting zone bounding tape.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_TURN_RIGHT_90</div>
-        <div class="state-desc">Timed 1000 ms right rotation to face perpendicular to the center line.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_FIND_CENTERLINE</div>
-        <div class="state-desc">Drives laterally until the center mid sensor detects the tape.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_ALIGN_REAR</div>
-        <div class="state-desc">Rotates until the rear sensor also detects tape, confirming parallel alignment toward the house.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_ADVANCE_TO_HOG</div>
-        <div class="state-desc">Drives forward until a front hog-line sensor triggers, stopping just short of the restricted zone.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_LAUNCH</div>
-        <div class="state-desc">Extends the rack-and-pinion arm for 2000 ms, pushing all three pucks into the house.</div>
-      </div>
-      <div class="state">
-        <div class="state-name">STATE_DONE</div>
-        <div class="state-desc">Stops all motors. Terminal state.</div>
-      </div>
-    </div>
-
-    <h3>IR Beacon Detection: Goertzel Algorithm</h3>
-    <p>
-      Instead of raw thresholding — susceptible to ambient light — we implemented a Goertzel algorithm,
-      an efficient single-frequency DFT, to detect specifically the 909 Hz beacon signal. 50 ADC samples
-      were collected per sensor at ~9090 samples/sec, DC offset was removed, and the Goertzel recurrence
-      computed power at frequency bin k=5. A threshold of 1000.0 determined detection.
-    </p>
-  </section>
-
-  <hr>
-
-  <!-- RESULTS -->
-  <section id="results">
-    <h2>Results</h2>
-
-    <div class="callout">
-      <div class="callout-num">25s</div>
-      <div class="callout-text">
-        Our robot completed its mission in just 25 seconds — the <strong>5th team in the class</strong>
-        to get checked off, roughly 6 days before the deadline. It reliably navigated from a random
-        orientation and delivered all three pucks in a single run.
-      </div>
-    </div>
-
-    <p>
-      The project required only one late night in the lab to achieve final integration.
-      The robot consistently beat the brick requirement (3 points in 2 minutes) and demonstrated
-      the value of keeping the strategy simple, the code modular, and the mechanical design practical.
-    </p>
-  </section>
-
-  <hr>
-
-  <!-- BOM -->
-  <section id="bom">
-    <h2>Bill of Materials</h2>
-    <table>
-      <tr><th>Component</th><th>Purpose</th></tr>
-      <tr><td>18" × 24" Duron board</td><td>Laser-cut chassis</td></tr>
-      <tr><td>3× DC motors</td><td>2 drive motors, 1 rack-and-pinion actuator</td></tr>
-      <tr><td>4× reflectance tape sensors</td><td>Line detection & hog-line stopping</td></tr>
-      <tr><td>3× H-bridge motor driver modules</td><td>Motor control</td></tr>
-      <tr><td>2× phototransistors</td><td>IR beacon detection</td></tr>
-      <tr><td>3D-printed PLA components</td><td>IR tower, rack and pinion mechanism</td></tr>
-      <tr><td>2× ball-transfer rollers</td><td>Chassis stabilization</td></tr>
-      <tr><td>Arduino Uno</td><td>Main microcontroller</td></tr>
-      <tr><td>Battery packs, fuse, e-stop switch</td><td>Power & safety</td></tr>
-    </table>
-  </section>
-
-  <hr>
-
-  <!-- CONCLUSION -->
-  <section id="conclusion">
-    <h2>Conclusion</h2>
-    <p>
-      By committing early to a clear and simple strategy — IR beacon detection to orient, tape sensing
-      to navigate, and a rack-and-pinion arm to score — we avoided the scope creep that derails many
-      ME210 projects. Every design decision was made in service of one goal: beat the brick.
-    </p>
-    <p>
-      The most valuable lesson was the importance of modular design. Building discrete, independently
-      debuggable subsystems meant that final integration was assembly, not discovery. Sometimes the
-      best engineering decision is knowing when you're done.
-    </p>
-  </section>
-
-  <footer>
-    ME210 &middot; Canada Curling Team &middot; Stanford University 2026
-  </footer>
-
+<div class="topbar">
+  <span>ME210 &middot; Introduction to Mechatronics &middot; Stanford University</span>
+  <span><strong>Winter 2026</strong></span>
 </div>
+
+<div class="wrapper">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <nav>
+      <div class="nav-section">Project</div>
+      <a href="#overview">Overview</a>
+      <a href="#strategy">Strategy</a>
+      <div class="nav-section">Design</div>
+      <a href="#mechanical">Mechanical</a>
+      <a href="#electrical">Electrical</a>
+      <a href="#software">Software</a>
+      <div class="nav-section">Outcome</div>
+      <a href="#results">Results</a>
+      <a href="#bom">Bill of Materials</a>
+      <a href="#conclusion">Conclusion</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- HEADER -->
+    <div class="tag">Final Project Report</div>
+    <h1>Canada Curling Team</h1>
+    <div class="subtitle">An autonomous curling DROID built for ME210 — navigation, sensing, and puck delivery from scratch.</div>
+
+    <div class="team-row">
+      <div class="member">Jack Merrill</div>
+      <div class="member">Seth Rhodes</div>
+      <div class="member">Breno Casciello</div>
+      <div class="member">Jonah Bhisitkul</div>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">25s</div>
+        <div class="stat-label">Mission time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">#5</div>
+        <div class="stat-label">In class to finish</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4 wks</div>
+        <div class="stat-label">Build sprint</div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <h2>Project Overview</h2>
+      <p>
+        This project, set out by the 2026 ME210 teaching team, was to build a fully autonomous curling robot —
+        a DROID that starts in a random orientation, finds its way down the curling sheet, launches pucks
+        toward the house, and does all of this without embarrassing itself in front of family, friends,
+        and the teaching staff.
+      </p>
+      <p>
+        The challenge combined navigation, sensing, actuation, and strategy under tight constraints:
+        a small footprint, full autonomy, a limited budget, and the requirement to "beat the brick."
+        Over a 4-week sprint, our robot evolved from ambitious ideas into a working system with a clear
+        strategy, integrated sensing, and a repeatable puck-shooting mechanism.
+      </p>
+
+      <!-- 🎥 DEMO VIDEO: replace YOUR_VIDEO_ID and uncomment when ready
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+      </div>
+      -->
+
+      <h3>Rules & Requirements</h3>
+      <ul>
+        <li>Fully autonomous — no human interaction except legal reloading between runs</li>
+        <li>Start in a randomized orientation with three pucks loaded</li>
+        <li>Max footprint 13×13 in starting, 20×20 in deployed; max height 12 in</li>
+        <li>Front of starting footprint cannot cross the hog line</li>
+        <li>Arduino Uno control, untethered battery power, external e-stop, in-line fuse</li>
+        <li>Total material cost under $200</li>
+        <li>Minimum: score ≥ 3 points in 2 minutes ("beat the brick")</li>
+      </ul>
+    </section>
+
+    <!-- STRATEGY -->
+    <section id="strategy">
+      <h2>Design Strategy</h2>
+      <p>
+        From day one, our goal was simple: beat the brick. We committed to a minimal, reliable strategy
+        built around the curling sheet's center line and an IR beacon at the house. Rather than over-engineer,
+        we designed for exactly the task at hand.
+      </p>
+      <ol>
+        <li>Detect the IR beacon and orient toward the house</li>
+        <li>Drive forward to fully exit the starting zone</li>
+        <li>Turn 90° and sweep laterally to find the center tape line</li>
+        <li>Align parallel to the line and follow it to the hog line</li>
+        <li>Stop and extend the puck arm to score</li>
+      </ol>
+
+      <figure>
+        <img src="curling-sheet.png" alt="ME210 Curling Sheet Diagram" />
+        <figcaption>Figure 1 — ME210 Curling Sheet layout. Scoring rings: Ø24" (1pt), Ø16" (2pts), Ø8" (5pts). Source: ME210 Project Guidelines.</figcaption>
+      </figure>
+
+      <p>
+        Because the starting zone was itself bounded by black tape, we had to exit completely before
+        activating any tape sensors — otherwise the robot might lock onto the wrong line. IR beacon
+        detection solved the orientation problem first, then tape sensing took over for the rest of the run.
+      </p>
+    </section>
+
+    <!-- MECHANICAL -->
+    <section id="mechanical">
+      <h2>Mechanical Design</h2>
+      <p>
+        The mechanical design prioritized speed of fabrication and ease of integration.
+        The chassis was laser-cut from Duron — lightweight, stiff, and available in the lab —
+        with all major components slotted and mounted to a single flat base.
+      </p>
+
+      <figure>
+        <img src="bot1.jpeg" alt="Assembled robot on the curling sheet" />
+        <figcaption>The finished robot, ready to compete.</figcaption>
+      </figure>
+
+      <h3>Drivetrain</h3>
+      <p>
+        Two DC motors in a differential drive configuration, stabilized by a pair of ball-transfer
+        rollers. A software trim constant of 0.8 on the right motor corrected a physical speed
+        mismatch — no feedback control needed.
+      </p>
+
+      <h3>IR Tower</h3>
+      <p>
+        A 3D-printed PLA tower elevated two phototransistors above the chassis, with a physical
+        barrier between them to isolate left and right beacon signals. Pockets in the second
+        iteration locked the sensors in place, preventing drift during operation. The tower also
+        served as the battery mount, keeping the center of mass centered.
+      </p>
+
+      <h3>Puck Dispenser</h3>
+      <p>
+        A 3D-printed rack-and-pinion driven by a third DC motor. On reaching the hog line, the
+        arm extended forward and pushed all three pucks into the scoring zone. PLA was fast to
+        fabricate and easy to revise as we tuned extension length and alignment.
+      </p>
+    </section>
+
+    <!-- ELECTRICAL -->
+    <section id="electrical">
+      <h2>Electrical Design</h2>
+      <p>
+        All sensing, motor control, and power distribution ran through a single breadboard
+        mounted to the chassis — keeping wiring short, organized, and debuggable.
+      </p>
+
+      <figure>
+        <img src="soldering.jpeg" alt="Soldering and wiring work" />
+        <figcaption>Breadboard and wiring assembly during build week.</figcaption>
+      </figure>
+
+      <h3>Power</h3>
+      <p>Provided battery packs with an in-line fuse and an external emergency stop switch wired in series with the main rail.</p>
+
+      <h3>DC Motor Drivers</h3>
+      <p>Three dedicated H-bridge modules gave independent bidirectional PWM control for each motor. Left/right drive motors used pins 8, 5, 9 and 6, 7, 10; the rack motor used pins 12, 13, 11.</p>
+
+      <h3>Tape Sensors</h3>
+      <p>Four reflectance sensors: center mid on pin 2, rear on A5, and two front hog-line sensors on pins 3 and 4. Each outputs HIGH over black tape, LOW otherwise. Polled directly in the FSM loop — no interrupts needed at the robot's speed.</p>
+
+      <h3>IR Phototransistors</h3>
+      <p>Two phototransistors on pins A0 and A1. The ADC prescaler was reduced from divide-by-128 to divide-by-16 via the ADCSRA register, raising the sampling rate to support the Goertzel frequency detection algorithm.</p>
+    </section>
+
+    <!-- SOFTWARE -->
+    <section id="software">
+      <h2>Software & Finite State Machine</h2>
+      <p>
+        The robot ran an 8-state FSM in the Arduino main loop. Each state was self-contained
+        with defined entry conditions, actions, and exit transitions — easy to test in isolation
+        and modify without touching the rest.
+      </p>
+
+      <div class="fsm">
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_FIND_BEARING</div>
+          <div class="fsm-desc">Rotates in place until both IR sensors simultaneously detect the 909 Hz beacon — robot is facing the house.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_EXIT_START</div>
+          <div class="fsm-desc">Drives forward for 4000 ms to fully clear the starting zone bounding tape.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_TURN_RIGHT_90</div>
+          <div class="fsm-desc">Timed 1000 ms right rotation to face perpendicular to the center line.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_FIND_CENTERLINE</div>
+          <div class="fsm-desc">Drives laterally until the center mid sensor detects tape.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_ALIGN_REAR</div>
+          <div class="fsm-desc">Rotates until the rear sensor also sees tape — confirms alignment parallel to the line, facing the house.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_ADVANCE_TO_HOG</div>
+          <div class="fsm-desc">Drives forward until a front hog-line sensor triggers, stopping just short of the restricted zone.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_LAUNCH</div>
+          <div class="fsm-desc">Extends the rack-and-pinion arm for 2000 ms, pushing all three pucks into the house.</div>
+        </div>
+        <div class="fsm-step">
+          <div class="fsm-name">STATE_DONE</div>
+          <div class="fsm-desc">All motors stop. Terminal state.</div>
+        </div>
+      </div>
+
+      <h3>Goertzel Algorithm for IR Detection</h3>
+      <p>
+        Rather than raw thresholding, we implemented a Goertzel algorithm — an efficient
+        single-frequency DFT — to detect the specific 909 Hz beacon signal and reject ambient
+        IR noise. 50 samples per sensor at ~9090 samples/sec, DC offset removed, power computed
+        at bin k=5. Threshold: 1000.0.
+      </p>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <h2>Results</h2>
+
+      <div class="callout">
+        <div class="callout-num">25s</div>
+        <div class="callout-text">
+          Mission complete. Our robot finished its full run in 25 seconds, making us the
+          <strong>5th team in the class to be checked off</strong> — roughly 6 days before the deadline.
+          One late night in the lab. Zero scope creep. Beat the brick.
+        </div>
+      </div>
+
+      <p>
+        The robot reliably started in a random orientation, found the IR beacon, navigated to the center line,
+        advanced to the hog line, and delivered all three pucks in a single consistent run. The project demonstrated
+        the value of a simple strategy executed well.
+      </p>
+    </section>
+
+    <!-- BOM -->
+    <section id="bom">
+      <h2>Bill of Materials</h2>
+      <table>
+        <tr><th>Component</th><th>Purpose</th></tr>
+        <tr><td>18" × 24" Duron board</td><td>Laser-cut chassis</td></tr>
+        <tr><td>3× DC motors</td><td>2 drive, 1 rack-and-pinion actuator</td></tr>
+        <tr><td>4× reflectance tape sensors</td><td>Line detection & hog-line stopping</td></tr>
+        <tr><td>3× H-bridge motor driver modules</td><td>Independent motor control</td></tr>
+        <tr><td>2× phototransistors</td><td>IR beacon detection</td></tr>
+        <tr><td>3D-printed PLA components</td><td>IR tower, rack and pinion</td></tr>
+        <tr><td>2× ball-transfer rollers</td><td>Chassis stabilization</td></tr>
+        <tr><td>Arduino Uno</td><td>Main microcontroller</td></tr>
+        <tr><td>Battery packs, fuse, e-stop switch</td><td>Power & safety</td></tr>
+      </table>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="conclusion">
+      <h2>Conclusion</h2>
+      <p>
+        By committing to a clear, minimal strategy early, we avoided the scope creep that derails many
+        ME210 projects. IR beacon detection to orient, tape sensing to navigate, rack-and-pinion to score —
+        every system existed to serve one goal.
+      </p>
+      <p>
+        The most valuable lesson: modular design makes integration easy. Each subsystem was debuggable
+        in isolation, and assembly at the end was straightforward. If we continued, we'd replace the
+        timed exit and turn behaviors with sensor-based equivalents for better robustness. But for
+        ME210 — the robot did its job, reliably and well. Sometimes the best engineering decision is
+        knowing when you're done.
+      </p>
+    </section>
+
+    <footer>
+      ME210 &middot; Canada Curling Team &middot; Stanford University 2026
+    </footer>
+
+  </main>
+</div>
+
 </body>
 </html>
