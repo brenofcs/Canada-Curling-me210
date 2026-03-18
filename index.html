@@ -267,12 +267,35 @@
     .callout-text { font-size: 0.93em; color: #555; }
 
     /* ── CODE BLOCK ── */
+    details.code-details summary {
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: #555;
+      padding: 10px 14px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    details.code-details summary::before {
+      content: '▶';
+      font-size: 0.7em;
+      transition: transform 0.2s;
+    }
+    details.code-details[open] summary::before { transform: rotate(90deg); }
+    details.code-details summary::-webkit-details-marker { display: none; }
     .code-wrap {
       background: #0d1117;
-      border-radius: 10px;
-      padding: 24px;
-      margin: 20px 0;
+      border-radius: 0 0 10px 10px;
+      padding: 20px 24px;
+      margin: 0;
       overflow-x: auto;
+      overflow-y: auto;
+      max-height: 400px;
     }
     .code-wrap pre {
       margin: 0;
@@ -441,7 +464,7 @@
       </p>
 
       <figure>
-        <img src="cad.png" alt="CAD render of the robot" />
+        <img src="cad.png" alt="CAD render of the robot" style="background:#fff;" />
         <figcaption>Figure — Full CAD assembly. Circular Duron chassis with differential drive wheels, IR tower, rack-and-pinion puck dispenser, and tape sensors.</figcaption>
       </figure>
 
@@ -512,7 +535,7 @@
       <p>Two phototransistors (LTR-3208) on pins A0 and A1. The ADC prescaler was reduced from divide-by-128 to divide-by-16 via the ADCSRA register, raising the sampling rate to support the Goertzel frequency detection algorithm.</p>
 
       <figure>
-        <img src="schematic.png" alt="IR phototransistor circuit schematic" />
+        <img src="circuid.png" alt="IR phototransistor circuit schematic" />
         <figcaption>Figure — IR sensing circuit. A 4.7 kΩ pull-up resistor biases the LTR-3208 phototransistor; a two-stage RC filter (R2/C2 at 10 kΩ/47 nF, R3/C3 at 10 kΩ/4.7 nF) attenuates broadband noise and sharpens the 909 Hz target signal before it reaches the Arduino ADC pin.</figcaption>
       </figure>
     </section>
@@ -571,23 +594,17 @@
 
       <h3>Full Source Code</h3>
       <p>The complete Arduino sketch uploaded to the robot:</p>
-      <div class="code-wrap">
-        <pre><code id="arduino-code"></code></pre>
-      </div>
+      <details class="code-details">
+        <summary>Final.ino — view source</summary>
+        <div class="code-wrap">
+          <pre><code id="arduino-code"></code></pre>
+        </div>
+      </details>
     </section>
 
     <!-- RESULTS -->
     <section id="results">
       <h2>Results</h2>
-
-      <div class="callout">
-        <div class="callout-num">25s</div>
-        <div class="callout-text">
-          Mission complete. Our robot finished its full run in 25 seconds, making us the
-          <strong>5th team in the class to be checked off</strong> — roughly 6 days before the deadline.
-          One late night in the lab. Zero scope creep. Beat the brick.
-        </div>
-      </div>
 
       <p>
         The robot reliably started in a random orientation, found the IR beacon, navigated to the center line,
