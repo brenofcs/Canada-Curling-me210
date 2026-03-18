@@ -266,6 +266,44 @@
     .callout-num { font-size: 2.4em; font-weight: 800; color: #111; white-space: nowrap; }
     .callout-text { font-size: 0.93em; color: #555; }
 
+    /* ── CODE BLOCK ── */
+    .code-wrap {
+      background: #0d1117;
+      border-radius: 10px;
+      padding: 24px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    .code-wrap pre {
+      margin: 0;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.78em;
+      line-height: 1.65;
+      color: #e6edf3;
+      white-space: pre;
+    }
+
+    /* ── VIDEO SHORT (portrait) ── */
+    .video-short-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 24px 0;
+    }
+    .video-short {
+      position: relative;
+      width: 320px;
+      padding-bottom: 568px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+    }
+    .video-short iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid #e5e7eb;
@@ -347,11 +385,11 @@
         strategy, integrated sensing, and a repeatable puck-shooting mechanism.
       </p>
 
-      <!-- 🎥 DEMO VIDEO: replace YOUR_VIDEO_ID and uncomment when ready
-      <div class="video-wrap">
-        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+      <div class="video-short-wrap">
+        <div class="video-short">
+          <iframe src="https://www.youtube.com/embed/cbTwvEZyyMc" allowfullscreen></iframe>
+        </div>
       </div>
-      -->
 
       <h3>Rules & Requirements</h3>
       <ul>
@@ -403,9 +441,14 @@
       </p>
 
       <figure>
-        <img src="bot1.jpeg" alt="Assembled robot on the curling sheet" />
-        <figcaption>The finished robot, ready to compete.</figcaption>
+        <img src="cad.png" alt="CAD render of the robot" />
+        <figcaption>Figure — Full CAD assembly. Circular Duron chassis with differential drive wheels, IR tower, rack-and-pinion puck dispenser, and tape sensors.</figcaption>
       </figure>
+
+      <p>
+        The CAD model guided our fabrication from the start. Every mounting hole, motor pocket, and sensor slot was
+        laid out before cutting — which meant assembly was mostly mechanical rather than improvisational.
+      </p>
 
       <h3>Drivetrain</h3>
       <p>
@@ -422,12 +465,25 @@
         served as the battery mount, keeping the center of mass centered.
       </p>
 
-      <h3>Puck Dispenser</h3>
+      <h3>Puck Dispenser — Rack & Pinion</h3>
       <p>
-        A 3D-printed rack-and-pinion driven by a third DC motor. On reaching the hog line, the
-        arm extended forward and pushed all three pucks into the scoring zone. PLA was fast to
-        fabricate and easy to revise as we tuned extension length and alignment.
+        The scoring mechanism is a 3D-printed rack-and-pinion: a toothed gear (pinion) mounted
+        on a DC motor meshes with a straight toothed rail (rack) that slides linearly outward.
+        When the motor spins, the pinion rotates and drives the rack — and the puck cradle attached
+        to it — forward in a straight line. It's a simple way to convert rotational motor output
+        into precise linear extension with no linkages or cams needed.
       </p>
+      <p>
+        On reaching the hog line, the arm extended forward over 2000 ms and pushed all three
+        pucks into the scoring zone in a single stroke. PLA was fast to fabricate and easy to
+        iterate: we revised the rack length and cradle geometry twice before locking in a version
+        that cleared the hog line cleanly every time.
+      </p>
+
+      <figure>
+        <img src="bot1.jpeg" alt="Assembled robot on the curling sheet" />
+        <figcaption>The finished robot on the sheet, puck arm stowed, ready to compete.</figcaption>
+      </figure>
     </section>
 
     <!-- ELECTRICAL -->
@@ -453,7 +509,12 @@
       <p>Four reflectance sensors: center mid on pin 2, rear on A5, and two front hog-line sensors on pins 3 and 4. Each outputs HIGH over black tape, LOW otherwise. Polled directly in the FSM loop — no interrupts needed at the robot's speed.</p>
 
       <h3>IR Phototransistors</h3>
-      <p>Two phototransistors on pins A0 and A1. The ADC prescaler was reduced from divide-by-128 to divide-by-16 via the ADCSRA register, raising the sampling rate to support the Goertzel frequency detection algorithm.</p>
+      <p>Two phototransistors (LTR-3208) on pins A0 and A1. The ADC prescaler was reduced from divide-by-128 to divide-by-16 via the ADCSRA register, raising the sampling rate to support the Goertzel frequency detection algorithm.</p>
+
+      <figure>
+        <img src="schematic.png" alt="IR phototransistor circuit schematic" />
+        <figcaption>Figure — IR sensing circuit. A 4.7 kΩ pull-up resistor biases the LTR-3208 phototransistor; a two-stage RC filter (R2/C2 at 10 kΩ/47 nF, R3/C3 at 10 kΩ/4.7 nF) attenuates broadband noise and sharpens the 909 Hz target signal before it reaches the Arduino ADC pin.</figcaption>
+      </figure>
     </section>
 
     <!-- SOFTWARE -->
@@ -507,6 +568,12 @@
         IR noise. 50 samples per sensor at ~9090 samples/sec, DC offset removed, power computed
         at bin k=5. Threshold: 1000.0.
       </p>
+
+      <h3>Full Source Code</h3>
+      <p>The complete Arduino sketch uploaded to the robot:</p>
+      <div class="code-wrap">
+        <pre><code id="arduino-code"></code></pre>
+      </div>
     </section>
 
     <!-- RESULTS -->
@@ -569,6 +636,230 @@
 
   </main>
 </div>
+
+
+<script>
+document.getElementById('arduino-code').textContent = `// ============================================================
+// ME210 Curling DROID — Final Sketch
+// ============================================================
+
+// ---- PIN DEFINITIONS ---------------------------------------
+
+// left motor
+const int L_IN1 = 8;
+const int L_IN2 = 5;
+const int L_ENA = 9;
+
+// right motor — physically wired in reverse on H-bridge,
+// so IN logic is flipped relative to left motor
+const int R_IN1 = 6;
+const int R_IN2 = 7;
+const int R_ENA = 10;
+
+// rack & pinion motor
+const int RP_IN1 = 12;
+const int RP_IN2 = 13;
+const int RP_EN  = 11;
+
+// tape sensors
+const int TAPE_CENTER_MID  = 2;
+const int TAPE_CENTER_REAR = A5;
+const int TAPE_HOG_LEFT    = 3;
+const int TAPE_HOG_RIGHT   = 4;
+
+// ir sensors
+const int IR_SENSOR_RIGHT = A0;
+const int IR_SENSOR_LEFT  = A1;
+
+// ---- SPEED CONSTANTS ---------------------------------------
+
+const int DRIVE_SPEED = 160;
+const int FAST_SPEED  = 190;
+const int TURN_SPEED  = 140;
+const int RACK_SPEED  = 235;
+
+// ---- MOTOR TRIM --------------------------------------------
+// Right motor runs faster than left; scale it down until bot drives straight.
+const float R_TRIM = 0.8;
+
+// ---- TIMING CONSTANTS --------------------------------------
+
+const unsigned long TURN_90_TIME     = 1000;
+const unsigned long RACK_EXTEND_TIME = 2000;
+const unsigned long EXIT_START_TIME  = 4000;
+
+// ---- TAPE SENSOR DEFINES -----------------------------------
+
+#define ON_TAPE  HIGH
+#define OFF_TAPE LOW
+
+int prevState;
+
+// ---- IR / GOERTZEL -----------------------------------------
+
+const float TARGET_FREQ      = 909.0;
+const int   SAMPLE_RATE      = 9090;
+const int   N_SAMPLES        = 50;
+const float DETECT_THRESHOLD = 1000.0;
+
+float goertzelCoeff;
+static bool a0_triggered = false;
+
+// ---- STATE MACHINE -----------------------------------------
+
+enum State {
+  STATE_FIND_BEARING,
+  STATE_EXIT_START,
+  STATE_TURN_RIGHT_90,
+  STATE_FIND_CENTERLINE,
+  STATE_ALIGN_REAR,
+  STATE_ADVANCE_TO_HOG,
+  STATE_LAUNCH,
+  STATE_DONE
+};
+
+State currentState;
+unsigned long stateStartTime = 0;
+
+// ---- HELPERS -----------------------------------------------
+
+bool onTape(int pin) { return digitalRead(pin) == ON_TAPE; }
+
+void setLeftMotor(int speed) {
+  if (speed > 0)      { digitalWrite(L_IN1, HIGH); digitalWrite(L_IN2, LOW);  analogWrite(L_ENA,  speed); }
+  else if (speed < 0) { digitalWrite(L_IN1, LOW);  digitalWrite(L_IN2, HIGH); analogWrite(L_ENA, -speed); }
+  else                { digitalWrite(L_IN1, HIGH); digitalWrite(L_IN2, HIGH); analogWrite(L_ENA,  0);     }
+}
+
+void setRightMotor(int speed) {
+  int t = (int)(abs(speed) * R_TRIM);
+  if (speed > 0)      { digitalWrite(R_IN1, LOW);  digitalWrite(R_IN2, HIGH); analogWrite(R_ENA, t); }
+  else if (speed < 0) { digitalWrite(R_IN1, HIGH); digitalWrite(R_IN2, LOW);  analogWrite(R_ENA, t); }
+  else                { digitalWrite(R_IN1, HIGH); digitalWrite(R_IN2, HIGH); analogWrite(R_ENA, 0); }
+}
+
+void driveForward(int l, int r)  { setLeftMotor(l);   setRightMotor(r);  }
+void driveBackward(int l, int r) { setLeftMotor(-l);  setRightMotor(-r); }
+void rotateRight(int l, int r)   { setLeftMotor(l);   setRightMotor(-r); }
+void rotateLeft(int l, int r)    { setLeftMotor(-l);  setRightMotor(r);  }
+void stopDrive()                 { setLeftMotor(0);   setRightMotor(0);  }
+
+void extendArm(int speed) { analogWrite(RP_EN, speed); digitalWrite(RP_IN1, LOW);  digitalWrite(RP_IN2, HIGH); }
+void stopArm()            { analogWrite(RP_EN, 0);     digitalWrite(RP_IN1, LOW);  digitalWrite(RP_IN2, LOW);  }
+
+// ---- GOERTZEL ----------------------------------------------
+
+float samplePin(int pin) {
+  int samples[N_SAMPLES];
+  for (int i = 0; i < N_SAMPLES; i++) {
+    unsigned long t = micros();
+    samples[i] = analogRead(pin);
+    while (micros() - t < 110);
+  }
+  long sum = 0;
+  for (int i = 0; i < N_SAMPLES; i++) sum += samples[i];
+  int dc = (int)(sum / N_SAMPLES);
+  for (int i = 0; i < N_SAMPLES; i++) samples[i] -= dc;
+
+  float s = 0, sp = 0, sp2 = 0;
+  for (int i = 0; i < N_SAMPLES; i++) {
+    s   = (float)samples[i] + goertzelCoeff * sp - sp2;
+    sp2 = sp; sp = s;
+  }
+  return sp * sp + sp2 * sp2 - goertzelCoeff * sp * sp2;
+}
+
+bool bearingFound() {
+  bool a0 = (samplePin(A0) > DETECT_THRESHOLD);
+  bool a1 = (samplePin(A1) > DETECT_THRESHOLD);
+  if (!a0_triggered) {
+    if (a0) { a0_triggered = true; Serial.println(F("A0 triggered")); }
+  } else {
+    if (a1) { a0_triggered = false; Serial.println(F("Bearing found!")); return true; }
+  }
+  return false;
+}
+
+// ---- SETUP -------------------------------------------------
+
+void setup() {
+  pinMode(L_IN1, OUTPUT); pinMode(L_IN2, OUTPUT); pinMode(L_ENA, OUTPUT);
+  pinMode(R_IN1, OUTPUT); pinMode(R_IN2, OUTPUT); pinMode(R_ENA, OUTPUT);
+  pinMode(RP_IN1, OUTPUT); pinMode(RP_IN2, OUTPUT); pinMode(RP_EN, OUTPUT);
+  pinMode(TAPE_CENTER_MID, INPUT); pinMode(TAPE_CENTER_REAR, INPUT);
+  pinMode(TAPE_HOG_LEFT, INPUT);   pinMode(TAPE_HOG_RIGHT, INPUT);
+
+  Serial.begin(115200);
+  ADCSRA = (ADCSRA & 0xF8) | 0x04;  // ADC prescaler /16 → faster sampling
+
+  int k = (int)(0.5 + ((float)N_SAMPLES * TARGET_FREQ / SAMPLE_RATE));
+  float omega = (2.0 * PI * (float)k) / (float)N_SAMPLES;
+  goertzelCoeff = 2.0 * cos(omega);
+
+  currentState  = STATE_FIND_BEARING;
+  stateStartTime = millis();
+  prevState = -2;
+}
+
+// ---- MAIN LOOP ---------------------------------------------
+
+void loop() {
+  switch (currentState) {
+
+    case STATE_FIND_BEARING:
+      if (prevState == -2) { rotateRight(TURN_SPEED, (int)(TURN_SPEED*0.8)); prevState = -1; }
+      if (bearingFound()) { stateStartTime = millis(); currentState = STATE_EXIT_START; }
+      break;
+
+    case STATE_EXIT_START:
+      if (prevState == -1) { driveForward(255, 255); prevState = 0; }
+      if (millis() - stateStartTime >= EXIT_START_TIME) {
+        stopDrive(); stateStartTime = millis(); currentState = STATE_TURN_RIGHT_90;
+      }
+      break;
+
+    case STATE_TURN_RIGHT_90:
+      if (prevState == 0) { rotateRight(TURN_SPEED, (int)(TURN_SPEED*0.8)); prevState = 1; }
+      if (millis() - stateStartTime >= TURN_90_TIME) {
+        stopDrive(); stateStartTime = millis(); currentState = STATE_FIND_CENTERLINE;
+      }
+      break;
+
+    case STATE_FIND_CENTERLINE:
+      if (onTape(TAPE_CENTER_MID)) {
+        stopDrive(); stateStartTime = millis(); currentState = STATE_ALIGN_REAR;
+      } else {
+        if (prevState == 1) { driveForward(FAST_SPEED, (int)(FAST_SPEED*0.85)); prevState = 2; }
+      }
+      break;
+
+    case STATE_ALIGN_REAR:
+      if (onTape(TAPE_CENTER_REAR)) {
+        stopDrive(); stateStartTime = millis(); currentState = STATE_ADVANCE_TO_HOG;
+      } else {
+        if (prevState == 2) { rotateLeft(TURN_SPEED, (int)(TURN_SPEED*0.7)); prevState = 3; }
+      }
+      break;
+
+    case STATE_ADVANCE_TO_HOG:
+      if (onTape(TAPE_HOG_LEFT) || onTape(TAPE_HOG_RIGHT)) {
+        stopDrive(); stateStartTime = millis(); currentState = STATE_LAUNCH;
+      } else {
+        if (prevState == 3) { driveForward(FAST_SPEED, (int)(FAST_SPEED*1.05)); prevState = 4; }
+      }
+      break;
+
+    case STATE_LAUNCH:
+      if (prevState == 4) { extendArm(RACK_SPEED); prevState = 5; }
+      if (millis() - stateStartTime >= RACK_EXTEND_TIME) { stopArm(); currentState = STATE_DONE; }
+      break;
+
+    case STATE_DONE:
+      stopDrive(); stopArm();
+      break;
+  }
+}`;
+</script>
 
 </body>
 </html>
