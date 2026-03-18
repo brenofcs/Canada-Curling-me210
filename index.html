@@ -535,7 +535,7 @@
       <p>Two phototransistors (LTR-3208) on pins A0 and A1. The ADC prescaler was reduced from divide-by-128 to divide-by-16 via the ADCSRA register, raising the sampling rate to support the Goertzel frequency detection algorithm.</p>
 
       <figure>
-        <img src="curcuit.jpeg" alt="IR phototransistor circuit schematic" />
+        <img src="circuit.jpeg" alt="IR phototransistor circuit schematic" />
         <figcaption>Figure — IR sensing circuit. A 4.7 kΩ pull-up resistor biases the LTR-3208 phototransistor; a two-stage RC filter (R2/C2 at 10 kΩ/47 nF, R3/C3 at 10 kΩ/4.7 nF) attenuates broadband noise and sharpens the 909 Hz target signal before it reaches the Arduino ADC pin.</figcaption>
       </figure>
     </section>
